@@ -4,7 +4,6 @@ var Twitter = require('twitter');
 var app = require('express').createServer();
 
 var props = JSON.parse(fs.readFileSync('twitter_properties.json', 'utf8'));
-sys.puts(props);
 
 var twit = new Twitter({
     consumer_key: props.consumer_key,
@@ -17,7 +16,6 @@ app.get('/user/:userName', function(req, res){
 	var user = {};
 	
 	twit.get('/users/show.json', {include_entities: true, screen_name: req.params.userName}, function(userData) {
-	    sys.puts(sys.inspect(userData));
 		
 		user.userName = userData.screen_name;
 		user.fullName = userData.name;
