@@ -12,9 +12,17 @@ var twit = new Twitter({
     access_token_secret: props.access_token_secret
 });
 
+var cache = {};
+
 app.get('/user/:userName', function(req, res){
-	var user = {};
+	var user = cache[ req.params.userName ];
+	if (user){
+		sys.puts('got from cache');
+		res.send(user);
+		return;
+	}
 	
+	user = {};
 	twit.get('/users/show.json', {include_entities: true, screen_name: req.params.userName}, function(userData) {
 		
 		user.userName = userData.screen_name;
@@ -29,6 +37,10 @@ app.get('/user/:userName', function(req, res){
 		
 		twit.get('/statuses/user_timeline.json', {screen_name: req.params.userName, count: 100, trim_user: true, include_rts: false}, function(tweetsData){
 			user.tweets = tweetsData;
+			
+			// add to cache
+			cache[ user.userName ] = user;
+			
 			res.send(user);
 		});
 	});
