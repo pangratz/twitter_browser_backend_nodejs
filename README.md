@@ -2,7 +2,7 @@ backend for gmoeck's [twitter-browser](https://github.com/gmoeck/twitter_browser
 
 ### Installation
 
-* install node.js
+* install [node.js](http://nodejs.org)
 	
 	
 	
